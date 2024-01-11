@@ -2,4 +2,4 @@
 
 Se realizó un crud utilizando PHP y MySql para registrar datos mínimos de contacto.
 
-![screenshot](https://i.imgur.com/BUbVufL.jpg)
+![screenshot](https://imgur.com/t9SQ2m7)
