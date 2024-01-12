@@ -94,13 +94,10 @@
             
                 <!-- ... Otras columnas ... -->
                 <td style="text-align: center;">
-
-			  <!--    <a href="#" class="btn__delete" onclick="salir(<?php echo $fila['id']; ?>)">Salir <i class="bi-door-open"></i></a>-->
-
+				<?php if ($fila['hora_salida'] === null): ?>
                 <a href="salir.php?id=<?php echo $fila['id']; ?>" class="btn__delete" >Salir <i class="bi-door-open"></i></a>
-                </td>
-            
-
+				<?php endif; ?>
+			</td>
 					</tr>
 				<?php endforeach ?>
 			</table>
