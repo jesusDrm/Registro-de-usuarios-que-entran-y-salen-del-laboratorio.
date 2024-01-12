@@ -95,7 +95,7 @@
                 <!-- ... Otras columnas ... -->
                 <td style="text-align: center;">
 				<?php if ($fila['hora_salida'] === null): ?>
-                <a href="salir.php?id=<?php echo $fila['id']; ?>" class="btn__delete" >Salir <i class="bi-door-open"></i></a>
+                <a href="salir.php?id=<?php echo $fila['id']; ?>" class="btn__salir" >Salir <i class="bi-door-open"></i></a>
 				<?php endif; ?>
 			</td>
 					</tr>

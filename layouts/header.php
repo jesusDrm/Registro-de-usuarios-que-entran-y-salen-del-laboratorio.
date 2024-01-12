@@ -11,7 +11,7 @@
     <input type="checkbox" id="nav-check">
     <div class="nav-header">
       <div class="nav-title">
-        CRUD - PHP MySQL 💼
+        REGISTRO LSC 💼
       </div>
     </div>
     <div class="nav-btn">
@@ -23,6 +23,6 @@
     </div>    
     <div class="nav-links">
       <a href="index.php">Inicio</a>
-      <a href="integrantes.php">Equipo</a>
+      <a href="integrantes.php">Login</a>
     </div>
   </div>

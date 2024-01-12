@@ -7,8 +7,8 @@
 		$delete->execute(array(
 			':id'=>$id
 		));
-		header('Location: index.php');
+		header('Location: administrador.php');
 	}else{
-		header('Location: index.php');
+		header('Location: administrador.php');
 	}
  ?>

@@ -12,7 +12,7 @@
 		));
 		$resultado = $buscar_id->fetch();
 	}else{
-		header('Location: index.php');
+		header('Location: administrador.php');
 	}
 
 	if(isset($_POST['guardar'])){
@@ -23,33 +23,37 @@
 		$hora_entrada = $_POST['hora_entrada'];
 		$hora_salida = $_POST['hora_salida'];
 		$fecha = $_POST['fecha'];
+		$rfc_o_matricula=$_POST['rfc_o_matricula'];
 		$id = (int)$_GET['id'];
 
-		if(!empty($nombre) && !empty($company) && !empty($nom_per_visitada) && !empty($depto) && !empty($hora_entrada) && !empty($hora_salida) && !empty($fecha)){
+		if(!empty($nombre) && !empty($company) && !empty($nom_per_visitada) && !empty($depto) && !empty($hora_entrada) && !empty($hora_salida) && !empty($fecha)&& !empty($rfc_o_matricula)){
 			$consulta_update = $con->prepare('
-				UPDATE clientes SET  
+			UPDATE clientes 
+			SET  
 				nombre = :nombre,
 				company = :company,
 				nom_per_visitada = :nom_per_visitada,
 				depto = :depto,
 				hora_entrada = :hora_entrada,
 				hora_salida = :hora_salida,
-				fecha = :fecha
-				WHERE id = :id;'
-			);
+				fecha = :fecha,
+				rfc_o_matricula = :rfc_o_matricula
+			WHERE id = :id;'
+		);
 
-			$consulta_update->execute(array(
-				':nombre' => $nombre,
-				':company' => $company,
-				':nom_per_visitada' => $nom_per_visitada,
-				':depto' => $depto,
-				':hora_entrada' => $hora_entrada,
-				':hora_salida' => $hora_salida,
-				':fecha' => $fecha,
-				':id' => $id
-			));
+		$consulta_update->execute(array(
+			':nombre' => $nombre,
+			':company' => $company,
+			':nom_per_visitada' => $nom_per_visitada,
+			':depto' => $depto,
+			':hora_entrada' => $hora_entrada,
+			':hora_salida' => $hora_salida,  // Puedes establecer esto en NULL si no deseas actualizar la hora de salida
+			':fecha' => $fecha,
+			':rfc_o_matricula' => $rfc_o_matricula,
+			':id' => $id
+		));
 
-			header('Location: index.php');
+			header('Location: administrador.php');
 		}else{
 			echo "<script> alert('Los campos están vacíos');</script>";
 		}
@@ -64,6 +68,8 @@
 				<input type="text" name="nombre" value="<?php if($resultado) echo $resultado['nombre']; ?>"  class="input__text">
 				<input type="text" name="company" value="<?php if($resultado) echo $resultado['company']; ?>"  class="input__text">
 				<input type="text" name="nom_per_visitada" value="<?php if($resultado) echo $resultado['nom_per_visitada']; ?>"  class="input__text">
+				<input type="text" name="rfc_o_matricula" value="<?php if($resultado) echo $resultado['rfc_o_matricula']; ?>"  class="input__text">
+
 			</div>
 			<div class="form-group">
 				<input type="text" name="depto" value="<?php if($resultado) echo $resultado['depto']; ?>" class="input__text">
@@ -72,7 +78,7 @@
 				<input type="text" name="fecha"  value="<?php if($resultado) echo $resultado['fecha']; ?>" class="input__text">
 			</div>
 			<div class="btn__group" >
-				<a href="index.php" class="btn btn__danger">Cancelar</a>
+				<a href="administrador.php" class="btn btn__danger">Cancelar</a>
 				<input type="submit" name="guardar" value="Guardar" class="btn btn__primary">
 			</div>
 		</form>

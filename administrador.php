@@ -27,10 +27,12 @@
 		<h2>REGISTRO 📝</h2>
 		<div class="barra__buscador">
 			<form action="" class="formulario" method="post">
+				<!--
 				<input type="text" name="buscar" placeholder="Buscar nombre o apellido" 
 				value="<?php if(isset($buscar_text))echo $buscar_text?>" class="input__text">
 				<input type="submit" class="btn" name="btn_buscar" value="Buscar" >
-				<a href="insert.php" class="btn btn__nuevo">Nuevo <i class="bi bi-plus-circle"></i></a>
+				-->
+				<a href="exportar.php" class="btn btn__nuevo">Exportar datos. <i class="bi bi-plus-circle"></i></a>
 			</form>
 		</div>
 		<div style="overflow-x:auto;margin:30px 0px 50px 0px;">

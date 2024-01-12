@@ -136,6 +136,13 @@ table {
 			rgba(255, 255, 255, 1) 100%);
 }
 
+.btn__green {
+	background-color: green;
+	color: white;
+	/* Opcional: texto en color blanco para mejor contraste */
+	/* Otras propiedades de estilo que desees agregar */
+}
+
 table .head {
 	background: #00375c;
 	border-top: #00375c;
@@ -175,6 +182,17 @@ table tr td {
 	display: inline-block;
 	font-size: 14px;
 	background: #8a0505;
+	color: #fff;
+	border-radius: 5px;
+	padding: 5px 10px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.btn__salir {
+	display: inline-block;
+	font-size: 14px;
+	background: #01661a;
 	color: #fff;
 	border-radius: 5px;
 	padding: 5px 10px;
