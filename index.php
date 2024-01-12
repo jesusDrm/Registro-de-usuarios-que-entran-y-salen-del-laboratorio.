@@ -22,6 +22,8 @@
 		$resultado=$select_buscar->fetchAll();
 	}
 ?>
+<script src="script.js"></script>
+
 <body>
 	<div class="contenedor" >
 		<h2>REGISTRO 📝</h2>
@@ -92,7 +94,10 @@
             
                 <!-- ... Otras columnas ... -->
                 <td style="text-align: center;">
-                    <a href="salir.php?id=<?php echo $fila['id']; ?>" class="btn__delete" >Salir <i class="bi-door-open"></i></a>
+
+			  <!--    <a href="#" class="btn__delete" onclick="salir(<?php echo $fila['id']; ?>)">Salir <i class="bi-door-open"></i></a>-->
+
+                <a href="salir.php?id=<?php echo $fila['id']; ?>" class="btn__delete" >Salir <i class="bi-door-open"></i></a>
                 </td>
             
 

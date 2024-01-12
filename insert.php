@@ -17,7 +17,7 @@
 		$fecha=$fecha_actual;
 		$rfc_o_matricula=$_POST['rfc_o_matricula'];
 
-		if(!empty($nombre) && !empty($company) && !empty($nom_per_visitada) && !empty($depto) && !empty($hora_entrada) && !empty($hora_salida)&& !empty($fecha)){
+		if(!empty($nombre) && !empty($company) && !empty($nom_per_visitada) && !empty($depto)&& !empty($rfc_o_matricula) ){
 			//if(!is_numeric($)){
 			//	echo "<script> alert('Ingrese un telefono valido');</script>";
 			//}else{
@@ -34,8 +34,10 @@
 				));				
 				header('Location: index.php');
 			//}
-		}else{
+		}
+		else{
 			echo "<script> alert('Los campos estan vacios');</script>";
+			header('Location: index.php');
 		}
 
 	}
