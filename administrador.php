@@ -1,3 +1,4 @@
+
 <?php
 	$title = 'Inicio';
 	include_once 'conexion.php';
@@ -6,7 +7,14 @@
 	$sentencia_select=$con->prepare('SELECT * FROM clientes ORDER BY id ASC');
 	$sentencia_select->execute();
 	$resultado=$sentencia_select->fetchAll();
+  	
 
+  	session_start();
+	//Validamos que exista una sesión y además que la variable de sesión 'es_administrador' sea verdadera
+	 if(!isset($_SESSION['es_administrador']) || !$_SESSION['es_administrador']) {
+
+		header('location: index.php');
+	 }
 	// metodo buscar
 	// busca por nombre o apellido
 	if(isset($_POST['btn_buscar'])){
@@ -33,6 +41,7 @@
 				<input type="submit" class="btn" name="btn_buscar" value="Buscar" >
 				-->
 				<a href="exportar.php" class="btn btn__nuevo">Exportar datos. <i class="bi bi-plus-circle"></i></a>
+				<a href="controller/cerrarSesion.php" class="btn btn__nuevo">Cerrar sesión. <i class="bi bi-plus-circle"></i></a>
 			</form>
 		</div>
 		<div style="overflow-x:auto;margin:30px 0px 50px 0px;">

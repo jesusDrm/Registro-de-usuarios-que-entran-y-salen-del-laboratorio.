@@ -23,6 +23,6 @@
     </div>    
     <div class="nav-links">
       <a href="index.php">Inicio</a>
-      <a href="integrantes.php">Login</a>
+      <a href="login.php">Login</a>
     </div>
   </div>
