@@ -7,12 +7,12 @@
     a su pagina principal mientras exista una sesion entonces
     creamos un archivo que controle el redireccionamiento
   */
-
+  include_once './layouts/header.php';
   session_start();
 
   // isset verifica si existe una variable o eso creo xd
   if(isset($_SESSION['id'])){
-    header('location: controller/redirec.php');
+    header('location: administrador.php');
   }
 
 ?>
@@ -116,4 +116,6 @@
     <!-- Js personalizado -->
     <script src="js/operaciones.js"></script>
   </body>
+  
 </html>
+

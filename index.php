@@ -1,28 +1,48 @@
 <?php
-	$title = 'Inicio';
-	include_once 'conexion.php';
-	include_once './layouts/header.php';	
+$title = 'Inicio';
+include_once 'conexion.php';
+include_once './layouts/header.php';
 
-	$sentencia_select=$con->prepare('SELECT * FROM clientes ORDER BY id ASC');
-	$sentencia_select->execute();
-	$resultado=$sentencia_select->fetchAll();
+// Número de registros por página
+$registrosPorPagina = 20;
 
-	// metodo buscar
-	// busca por nombre o apellido
-	if(isset($_POST['btn_buscar'])){
-		$buscar_text=$_POST['buscar'];
-		$select_buscar=$con->prepare('
-			SELECT *FROM clientes WHERE nombre LIKE :campo OR apellido LIKE :campo;'
-		);
+// Página actual (por defecto, la primera página)
+$pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
 
-		$select_buscar->execute(array(
-			':campo' =>"%".$buscar_text."%"
-		));
+// Calcular el inicio del conjunto de resultados
+$inicio = ($pagina - 1) * $registrosPorPagina;
 
-		$resultado=$select_buscar->fetchAll();
-	}
+// Consulta SQL con LIMIT para la paginación
+$consulta = "SELECT * FROM desa.clientes ORDER BY fecha DESC, hora_entrada DESC LIMIT $inicio, $registrosPorPagina";
+$sentencia_select = $con->prepare($consulta);
+$sentencia_select->execute();
+$resultado = $sentencia_select->fetchAll();
+
+// Método de búsqueda
+if (isset($_POST['btn_buscar'])) {
+    $buscar_text = $_POST['buscar'];
+    $select_buscar = $con->prepare('SELECT * FROM desa.clientes WHERE nombre LIKE :campo OR apellido LIKE :campo;');
+    $select_buscar->execute(array(':campo' => "%" . $buscar_text . "%"));
+    $resultado = $select_buscar->fetchAll();
+
+    // Recalcula el total de registros después de la búsqueda
+    $totalRegistros = count($resultado);
+} else {
+    // Si no hay búsqueda, obtén el total de registros sin limitación
+    $totalRegistros = $con->query('SELECT count(*) FROM desa.clientes')->fetchColumn();
+}
+
+// Calcular el total de páginas después de la búsqueda
+$totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 ?>
+
+
 <script src="script.js"></script>
+<script src="tabla.js"></script>
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-GLhlTQ8iK1vnCz6RrPK4P1urbm+JjC2rOR0p5VgFq2x79DFA7p1qRMaMZ6enF2ta"
+        crossorigin="anonymous"></script>
 
 <body>
 	<div class="contenedor" >
@@ -64,9 +84,9 @@
 			</div>
 			
 		</form>
+		
 			<table >
 				<tr class="head">
-					<!--<td>#ID</td>-->
 					<td>Nombre</td>
 					<td>Compañia</td>
 					<td>Nombre de persona visitada</td>
@@ -79,7 +99,7 @@
 				</tr>
 				<?php foreach($resultado as $fila):?>
 					<tr >
-						<!--<td><?php //echo $fila['id']; ?></td>-->
+						
 						<td><?php echo $fila['nombre']; ?></td>
 						<td><?php echo $fila['company']; ?></td>
 						<td><?php echo $fila['nom_per_visitada']; ?></td>
@@ -93,6 +113,7 @@
 						<!--<td style="text-align: center;"><a href="salir.php?id=<?php #echo $fila['id']; ?>" class="btn__delete">Salir <i class="bi-door-open"></i></a></td> -->
             
                 <!-- ... Otras columnas ... -->
+				
                 <td style="text-align: center;">
 				<?php if ($fila['hora_salida'] === null): ?>
                 <a href="salir.php?id=<?php echo $fila['id']; ?>" class="btn__salir" >Salir <i class="bi-door-open"></i></a>
@@ -101,9 +122,21 @@
 					</tr>
 				<?php endforeach ?>
 			</table>
+			
+<!-- Botones de paginación -->
+<div class='paginacion'>
+    <?php
+    $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+    for ($i = 1; $i <= $totalPaginas; $i++) {
+        echo "<a href='index.php?pagina=$i'>$i</a> ";
+    }
+    ?>
+</div>
+
 		</div>
 	</div>
-		
+				
+				
 </body>
 
 
