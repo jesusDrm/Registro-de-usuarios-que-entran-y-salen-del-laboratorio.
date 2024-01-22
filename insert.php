@@ -10,7 +10,7 @@
 	if(isset($_POST['guardar'])){
 		$nombre=$_POST['nombre'];
 		$company=$_POST['company'];
-		$nom_per_visitada=$_POST['nom_per_visitada'];
+		$nom_per_visitada=$_POST['id_persona_visitada'];
 		$depto=$_POST['depto'];
 		$hora_entrada=$hora_actual;
 		$fecha=$fecha_actual;

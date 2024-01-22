@@ -1,7 +1,15 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $title = 'Inicio';
 include_once 'conexion.php';
 include_once './layouts/header.php';
+
+if (isset($_SESSION['es_administrador']) && $_SESSION['es_administrador'] == true) {
+    header('location: administrador.php');
+}
+
 
 // Número de registros por página
 $registrosPorPagina = 20;
@@ -13,6 +21,7 @@ $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
 $inicio = ($pagina - 1) * $registrosPorPagina;
 
 // Consulta SQL con LIMIT para la paginación
+
 $consulta = "SELECT * FROM desa.clientes ORDER BY fecha DESC, hora_entrada DESC LIMIT $inicio, $registrosPorPagina";
 $sentencia_select = $con->prepare($consulta);
 $sentencia_select->execute();
@@ -34,15 +43,25 @@ if (isset($_POST['btn_buscar'])) {
 
 // Calcular el total de páginas después de la búsqueda
 $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+// Consulta SQL para obtener la lista de personas
+$consulta_personas = "SELECT id_personal, Nombre FROM personal";
+$sentencia_personas = $con->prepare($consulta_personas);
+$sentencia_personas->execute();
+$personas = $sentencia_personas->fetchAll();
 ?>
 
 
-<script src="script.js"></script>
-<script src="tabla.js"></script>
-<!-- jQuery CDN -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-GLhlTQ8iK1vnCz6RrPK4P1urbm+JjC2rOR0p5VgFq2x79DFA7p1qRMaMZ6enF2ta"
-        crossorigin="anonymous"></script>
+<!-- Descarga jQuery y guárdalo localmente -->
+<script src="jquery/jquery-3.7.1.min.js"></script>
+
+
+<!-- jQuery UI Autocomplete -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+
 
 <body>
 	<div class="contenedor" >
@@ -65,7 +84,18 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 			<div class="form-group">
 				<input type="text" name="nombre" placeholder="Nombre" class="input__text">
 				<input type="text" name="company" placeholder="Compañia" class="input__text">
-				<input type="text" name="nom_per_visitada" placeholder="Persona visitada" class="input__text">
+				
+				<select name="id_persona_visitada" class="input__select-dropdown">
+				<option value="" disabled selected class="input__select-dropdown">Seleccione una persona</option>
+				<?php foreach ($personas as $persona): ?>
+					<option value="<?php echo $persona['id_personal']; ?>">
+						<?php echo $persona['Nombre']; ?>
+					</option>
+				<?php endforeach; ?>
+				</select>
+				<!--<input type="text" name="nom_per_visitada" placeholder="Persona visitada" class="input__text autocomplete">
+				<input type="hidden" name="id_persona_visitada" id="id_persona_visitada">
+				-->
 				
 
 			</div>
@@ -102,7 +132,21 @@ $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 						
 						<td><?php echo $fila['nombre']; ?></td>
 						<td><?php echo $fila['company']; ?></td>
-						<td><?php echo $fila['nom_per_visitada']; ?></td>
+						<td>
+            <?php
+            // Verificar si la clave 'nom_per_visitada' está definida en $fila
+            if (isset($fila['nom_per_visitada'])) {
+                // Consulta para obtener el nombre de la persona visitada desde la tabla personal
+                $consulta_persona = "SELECT Nombre FROM desa.personal WHERE id_personal = ?";
+                $sentencia_persona = $con->prepare($consulta_persona);
+                $sentencia_persona->execute([$fila['nom_per_visitada']]);
+                $persona_visitada = $sentencia_persona->fetchColumn();
+                echo $persona_visitada;
+            } else {
+                echo "No disponible"; // o cualquier otro mensaje de fallback
+            }
+            ?>
+        </td>
 						<td><?php echo $fila['depto']; ?></td>
 						<td><?php echo $fila['hora_entrada']; ?></td>
 						<td><?php echo $fila['hora_salida']; ?></td>

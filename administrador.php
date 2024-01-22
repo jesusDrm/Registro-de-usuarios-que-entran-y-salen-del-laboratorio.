@@ -1,5 +1,11 @@
 
 <?php
+session_start();
+//Validamos que exista una sesión y además que la variable de sesión 'es_administrador' sea verdadera
+if(!isset($_SESSION['es_administrador']) || !$_SESSION['es_administrador']) {
+
+	header('location: index.php');
+ }
 	$title = 'Inicio';
 	include_once 'conexion.php';
 	include_once './layouts/header.php';	
@@ -9,12 +15,8 @@
 	$resultado=$sentencia_select->fetchAll();
   	
 
-  	session_start();
-	//Validamos que exista una sesión y además que la variable de sesión 'es_administrador' sea verdadera
-	 if(!isset($_SESSION['es_administrador']) || !$_SESSION['es_administrador']) {
-
-		header('location: index.php');
-	 }
+  	
+	
 	// metodo buscar
 	// busca por nombre o apellido
 	if(isset($_POST['btn_buscar'])){
@@ -41,8 +43,16 @@
 				<input type="submit" class="btn" name="btn_buscar" value="Buscar" >
 				-->
 				<a href="exportar.php" class="btn btn__nuevo">Exportar datos. <i class="bi bi-plus-circle"></i></a>
-				<a href="controller/cerrarSesion.php" class="btn btn__nuevo">Cerrar sesión. <i class="bi bi-plus-circle"></i></a>
+				
 			</form>
+			<section class="text-accent center">
+        
+              
+              <p>
+                Deseas registrar otro administrador? <a href="registro.php"> Registrate!</a>
+              </p>
+            </section>
+
 		</div>
 		<div style="overflow-x:auto;margin:30px 0px 50px 0px;">
 			<table >
@@ -63,7 +73,21 @@
 						<!--<td><?php //echo $fila['id']; ?></td>-->
 						<td><?php echo $fila['nombre']; ?></td>
 						<td><?php echo $fila['company']; ?></td>
-						<td><?php echo $fila['nom_per_visitada']; ?></td>
+						<td>
+            <?php
+            // Verificar si la clave 'nom_per_visitada' está definida en $fila
+            if (isset($fila['nom_per_visitada'])) {
+                // Consulta para obtener el nombre de la persona visitada desde la tabla personal
+                $consulta_persona = "SELECT Nombre FROM desa.personal WHERE id_personal = ?";
+                $sentencia_persona = $con->prepare($consulta_persona);
+                $sentencia_persona->execute([$fila['nom_per_visitada']]);
+                $persona_visitada = $sentencia_persona->fetchColumn();
+                echo $persona_visitada;
+            } else {
+                echo "No disponible"; // o cualquier otro mensaje de fallback
+            }
+            ?>
+        </td>
 						<td><?php echo $fila['depto']; ?></td>
 						<td><?php echo $fila['hora_entrada']; ?></td>
 						<td><?php echo $fila['hora_salida']; ?></td>

@@ -490,3 +490,19 @@ img {
 .text-accent {
 	color: #727272;
 }
+
+.input__select-dropdown {
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	color: #848688;
+	display: block;
+	font-size: 14px;
+	margin-bottom: 15px;
+	padding: 10px 15px;
+	max-width: 30%;
+	margin-right: 10px;
+	outline: medium none;
+	/* Ajusta el ancho según sea necesario */
+}

@@ -2,7 +2,10 @@
 	$title = 'Actualizar';
 	include_once 'conexion.php';
 	include_once './layouts/header.php';
-
+	$consulta_personas = "SELECT id_personal, Nombre FROM personal";
+	$sentencia_personas = $con->prepare($consulta_personas);
+	$sentencia_personas->execute();
+	$personas = $sentencia_personas->fetchAll();
 	if(isset($_GET['id'])){
 		$id = (int)$_GET['id'];
 
@@ -67,7 +70,15 @@
 			<div class="form-group">
 				<input type="text" name="nombre" value="<?php if($resultado) echo $resultado['nombre']; ?>"  class="input__text">
 				<input type="text" name="company" value="<?php if($resultado) echo $resultado['company']; ?>"  class="input__text">
-				<input type="text" name="nom_per_visitada" value="<?php if($resultado) echo $resultado['nom_per_visitada']; ?>"  class="input__text">
+				<select name="nom_per_visitada" class="input__select-dropdown">
+					<option value="" disabled selected>Seleccione una persona</option>
+					<?php foreach ($personas as $persona): ?>
+						<option value="<?php echo $persona['id_personal']; ?>" <?php if($resultado && $resultado['nom_per_visitada'] == $persona['id_personal']) echo 'selected'; ?>>
+							<?php echo $persona['Nombre']; ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+
 				<input type="text" name="rfc_o_matricula" value="<?php if($resultado) echo $resultado['rfc_o_matricula']; ?>"  class="input__text">
 
 			</div>

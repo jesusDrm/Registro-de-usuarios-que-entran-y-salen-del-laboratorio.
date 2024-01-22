@@ -7,8 +7,11 @@
     a su pagina principal mientras exista una sesion entonces
     creamos un archivo que controle el redireccionamiento
   */
+  if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
   include_once './layouts/header.php';
-  session_start();
+
 
   // isset verifica si existe una variable o eso creo xd
   if(isset($_SESSION['id'])){
@@ -91,14 +94,7 @@
               </div>
             </div>
 
-            <section class="text-accent center">
-              <div class="spacing-2"></div>
-              
-              <p>
-                No tienes una cuenta? <a href="registro.php"> Registrate!</a>
-              </p>
-            </section>
-
+ 
           </fieldset>
         </div>
       </div>
