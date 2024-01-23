@@ -10,7 +10,7 @@ if(!isset($_SESSION['es_administrador']) || !$_SESSION['es_administrador']) {
 	include_once 'conexion.php';
 	include_once './layouts/header.php';	
 
-	$sentencia_select=$con->prepare('SELECT * FROM clientes ORDER BY id ASC');
+	$sentencia_select=$con->prepare('SELECT * FROM visitantes ORDER BY id ASC');
 	$sentencia_select->execute();
 	$resultado=$sentencia_select->fetchAll();
   	
@@ -22,7 +22,7 @@ if(!isset($_SESSION['es_administrador']) || !$_SESSION['es_administrador']) {
 	if(isset($_POST['btn_buscar'])){
 		$buscar_text=$_POST['buscar'];
 		$select_buscar=$con->prepare('
-			SELECT *FROM clientes WHERE nombre LIKE :campo OR apellido LIKE :campo;'
+			SELECT *FROM visitantes WHERE nombre LIKE :campo OR apellido LIKE :campo;'
 		);
 
 		$select_buscar->execute(array(
@@ -78,7 +78,7 @@ if(!isset($_SESSION['es_administrador']) || !$_SESSION['es_administrador']) {
             // Verificar si la clave 'nom_per_visitada' está definida en $fila
             if (isset($fila['nom_per_visitada'])) {
                 // Consulta para obtener el nombre de la persona visitada desde la tabla personal
-                $consulta_persona = "SELECT Nombre FROM desa.personal WHERE id_personal = ?";
+                $consulta_persona = "SELECT Nombre FROM registro_lns.personal WHERE id_personal = ?";
                 $sentencia_persona = $con->prepare($consulta_persona);
                 $sentencia_persona->execute([$fila['nom_per_visitada']]);
                 $persona_visitada = $sentencia_persona->fetchColumn();

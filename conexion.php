@@ -1,7 +1,7 @@
 <?php
 	//localhost
 	$host= 'localhost';
-	$db="desa";
+	$db="registro_lns";
 	$user='root';
 	$pass='';
 	$charset= 'utf8mb4';

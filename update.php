@@ -9,7 +9,7 @@
 	if(isset($_GET['id'])){
 		$id = (int)$_GET['id'];
 
-		$buscar_id = $con->prepare('SELECT * FROM clientes WHERE id = :id LIMIT 1');
+		$buscar_id = $con->prepare('SELECT * FROM visitantes WHERE id = :id LIMIT 1');
 		$buscar_id->execute(array(
 			':id' => $id
 		));
@@ -31,7 +31,7 @@
 
 		if(!empty($nombre) && !empty($company) && !empty($nom_per_visitada) && !empty($depto) && !empty($hora_entrada) && !empty($hora_salida) && !empty($fecha)&& !empty($rfc_o_matricula)){
 			$consulta_update = $con->prepare('
-			UPDATE clientes 
+			UPDATE visitantes 
 			SET  
 				nombre = :nombre,
 				company = :company,

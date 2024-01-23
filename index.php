@@ -22,7 +22,7 @@ $inicio = ($pagina - 1) * $registrosPorPagina;
 
 // Consulta SQL con LIMIT para la paginación
 
-$consulta = "SELECT * FROM desa.clientes ORDER BY fecha DESC, hora_entrada DESC LIMIT $inicio, $registrosPorPagina";
+$consulta = "SELECT * FROM registro_lns.visitantes ORDER BY fecha DESC, hora_entrada DESC LIMIT $inicio, $registrosPorPagina";
 $sentencia_select = $con->prepare($consulta);
 $sentencia_select->execute();
 $resultado = $sentencia_select->fetchAll();
@@ -30,7 +30,7 @@ $resultado = $sentencia_select->fetchAll();
 // Método de búsqueda
 if (isset($_POST['btn_buscar'])) {
     $buscar_text = $_POST['buscar'];
-    $select_buscar = $con->prepare('SELECT * FROM desa.clientes WHERE nombre LIKE :campo OR apellido LIKE :campo;');
+    $select_buscar = $con->prepare('SELECT * FROM registro_lns.visitantes WHERE nombre LIKE :campo OR apellido LIKE :campo;');
     $select_buscar->execute(array(':campo' => "%" . $buscar_text . "%"));
     $resultado = $select_buscar->fetchAll();
 
@@ -38,7 +38,7 @@ if (isset($_POST['btn_buscar'])) {
     $totalRegistros = count($resultado);
 } else {
     // Si no hay búsqueda, obtén el total de registros sin limitación
-    $totalRegistros = $con->query('SELECT count(*) FROM desa.clientes')->fetchColumn();
+    $totalRegistros = $con->query('SELECT count(*) FROM registro_lns.visitantes')->fetchColumn();
 }
 
 // Calcular el total de páginas después de la búsqueda
@@ -137,7 +137,7 @@ $personas = $sentencia_personas->fetchAll();
             // Verificar si la clave 'nom_per_visitada' está definida en $fila
             if (isset($fila['nom_per_visitada'])) {
                 // Consulta para obtener el nombre de la persona visitada desde la tabla personal
-                $consulta_persona = "SELECT Nombre FROM desa.personal WHERE id_personal = ?";
+                $consulta_persona = "SELECT Nombre FROM registro_lns.personal WHERE id_personal = ?";
                 $sentencia_persona = $con->prepare($consulta_persona);
                 $sentencia_persona->execute([$fila['nom_per_visitada']]);
                 $persona_visitada = $sentencia_persona->fetchColumn();
@@ -172,7 +172,9 @@ $personas = $sentencia_personas->fetchAll();
     <?php
     $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
     for ($i = 1; $i <= $totalPaginas; $i++) {
-        echo "<a href='index.php?pagina=$i'>$i</a> ";
+        // Construir el enlace de la página actual
+        $enlace = "index.php?pagina=$i";
+        echo "<a href='$enlace'>$i</a> ";
     }
     ?>
 </div>

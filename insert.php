@@ -20,7 +20,7 @@
 			//if(!is_numeric($)){
 			//	echo "<script> alert('Ingrese un telefono valido');</script>";
 			//}else{
-				$consulta_insert=$con->prepare('INSERT INTO clientes(nombre,company,nom_per_visitada,depto,hora_entrada,fecha,rfc_o_matricula) VALUES(:nombre,:company,:nom_per_visitada,:depto,:hora_entrada,:fecha,:rfc_o_matricula)');
+				$consulta_insert=$con->prepare('INSERT INTO visitantes(nombre,company,nom_per_visitada,depto,hora_entrada,fecha,rfc_o_matricula) VALUES(:nombre,:company,:nom_per_visitada,:depto,:hora_entrada,:fecha,:rfc_o_matricula)');
 				$consulta_insert->execute(array(
 					':nombre' =>$nombre,
 					':company' =>$company,

@@ -1,12 +1,16 @@
 <?php 
 
 	include_once 'conexion.php';
+    
 	if(isset($_GET['id'])){
+      
 		$id=(int) $_GET['id'];
-        $buscar_id = $con->prepare('SELECT * FROM clientes WHERE id = :id LIMIT 1');
+        $buscar_id = $con->prepare('SELECT * FROM visitantes WHERE id = :id LIMIT 1');
 		$buscar_id->execute(array(
 			':id' => $id
 		));
+
+        
         $resultado = $buscar_id->fetch();
         date_default_timezone_set('America/Mexico_City');
     $hora_actual = date('H:i:s');
@@ -15,7 +19,7 @@
         $id = (int)$_GET['id'];
 
             $consulta_update = $con->prepare('
-                UPDATE clientes 
+                UPDATE visitantes
                 SET hora_salida = :hora_salida
                 WHERE id = :id;'
             );
@@ -25,7 +29,7 @@
                 ':id' => $id
             ));
     
-            header('Location: index.php');
+            header("Location: index.php");
     
 	}else{
         

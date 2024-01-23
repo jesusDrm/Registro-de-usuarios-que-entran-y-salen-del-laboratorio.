@@ -10,7 +10,7 @@
         private $usuario = 'root';
         private $clave = '';
         private $server = 'localhost';
-        private $db = 'desa';
+        private $db = 'registro_lns';
 
         # Funcion que permite conectarnos a la base de datos
         public function conectar()
