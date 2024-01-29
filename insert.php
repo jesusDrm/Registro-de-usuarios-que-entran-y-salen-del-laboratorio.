@@ -17,9 +17,6 @@
 		$rfc_o_matricula=$_POST['rfc_o_matricula'];
 
 		if(!empty($nombre) && !empty($company) && !empty($nom_per_visitada) && !empty($depto)&& !empty($rfc_o_matricula) ){
-			//if(!is_numeric($)){
-			//	echo "<script> alert('Ingrese un telefono valido');</script>";
-			//}else{
 				$consulta_insert=$con->prepare('INSERT INTO visitantes(nombre,company,nom_per_visitada,depto,hora_entrada,fecha,rfc_o_matricula) VALUES(:nombre,:company,:nom_per_visitada,:depto,:hora_entrada,:fecha,:rfc_o_matricula)');
 				$consulta_insert->execute(array(
 					':nombre' =>$nombre,
@@ -31,7 +28,6 @@
 					':rfc_o_matricula' =>$rfc_o_matricula
 				));				
 				header('Location: index.php');
-			//}
 		}
 		else{
 			echo "<script> alert('Los campos estan vacios');</script>";
